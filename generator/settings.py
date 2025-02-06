@@ -106,7 +106,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Africa/Nairobi'
 
 USE_I18N = True
 
@@ -122,3 +122,15 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Celery settings for django
+# Points celery to redis broker
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+
+# Schedules the task to run every 10 minutes
+CELERY_BEAT_SCHEDULE = {
+    'generate-lyric-every-10-minutes': {
+        'task': 'lyrics.tasks.generate_new_lyric',
+        'schedule': 600.0, #10 minutes
+    },
+}
